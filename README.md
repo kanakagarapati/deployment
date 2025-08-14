@@ -26,9 +26,10 @@ This guide walks you through **building, deploying, and operating** a MERN (Mong
 
 ## 1) Repository Layout
 
+ - Repo used for FE :https://github.com/kanakagarapati/learnerReportCS_frontend
+ - Repo used for BE :https://github.com/kanakagarapati/learnerReportCS_backend
 Either keep FE/BE repos separate and add a deployment repo, or place everything in one repo. Example:
-Repo used for FE :https://github.com/kanakagarapati/learnerReportCS_frontend
-Repo used for BE :https://github.com/kanakagarapati/learnerReportCS_backend
+
 ```
 /deployment
   /charts/learner-report        # Helm chart
