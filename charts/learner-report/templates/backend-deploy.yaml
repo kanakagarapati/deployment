@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lr.fullname" . }}-backend
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels: { app: {{ include "lr.fullname" . }}, tier: backend }
+  template:
+    metadata:
+      labels: { app: {{ include "lr.fullname" . }}, tier: backend }
+    spec:
+      securityContext: { runAsNonRoot: true }
+      containers:
+        - name: backend
+          image: "{{ .Values.image.registry }}/{{ .Values.backend.image }}:{{ .Values.backend.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports: [{ containerPort: {{ .Values.backend.containerPort }} }]
+          env:
+            - name: NODE_ENV
+              value: "{{ .Values.backend.env.NODE_ENV }}"
+            - name: PORT
+              value: "{{ .Values.backend.env.PORT }}"
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.backend.mongoSecretName }}
+                  key: {{ .Values.backend.mongoSecretKey }}
+          resources: {{- toYaml .Values.backend.resources | nindent 12 }}
+          readinessProbe:
+            httpGet: { path: "{{ .Values.backend.readinessPath }}", port: {{ .Values.backend.containerPort }} }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: "{{ .Values.backend.livenessPath }}", port: {{ .Values.backend.containerPort }} }
+            initialDelaySeconds: 15
+            periodSeconds: 20

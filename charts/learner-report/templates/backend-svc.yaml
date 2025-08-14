@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "lr.fullname" . }}-backend
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.service.backendType }}
+  selector: { app: {{ include "lr.fullname" . }}, tier: backend }
+  ports:
+    - name: http
+      port: 3000
+      targetPort: {{ .Values.backend.containerPort }}

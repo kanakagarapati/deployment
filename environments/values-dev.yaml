@@ -1,0 +1,4 @@
+namespace: learner-dev
+frontend: { tag: "dev" }
+backend:  { tag: "dev" }
+ingress:  { host: learner.local }

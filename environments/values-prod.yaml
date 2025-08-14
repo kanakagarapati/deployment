@@ -1,0 +1,6 @@
+namespace: learner-prod
+frontend: { replicas: 3, tag: "1.0.0" }
+backend:  { replicas: 3, tag: "1.0.0" }
+ingress:
+  host: app.example.com
+  tls: { enabled: true, secretName: tls-app }

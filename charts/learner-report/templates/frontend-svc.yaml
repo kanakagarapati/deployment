@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "lr.fullname" . }}-frontend
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.service.frontendType }}
+  selector: { app: {{ include "lr.fullname" . }}, tier: frontend }
+  ports:
+    - port: 80
+      targetPort: {{ .Values.frontend.containerPort }}
